@@ -1,6 +1,6 @@
 # ArtnetTeensy
 
-h1 Artnet receiver issues by now
+H1 Artnet receiver issues by now
 
 testsetup: sending 8 universes all doing the same, turning on one led per frame -> after 150 leds on it restarts.
 
