@@ -33,13 +33,12 @@ byte channelBuffer[numberOfChannels]; // Combined universes into a single array
 
 // Check if we got all universes
 const int maxUniverses = numberOfChannels / 450 + ((numberOfChannels % 450) ? 1 : 0);
-//const int maxUniverses = numberOfChannels / 512 + ((numberOfChannels % 512) ? 1 : 0);
 bool universesReceived[maxUniverses];
 bool sendFrame = 1;
 
 // Change ip and mac address for your setup
-byte ip[] = {192, 168, 12, 200};
-//byte ip[] = {192, 168, 178, 200};
+//byte ip[] = {192, 168, 12, 200};
+byte ip[] = {192, 168, 178, 200};
 byte mac[] = {0x04, 0xE9, 0xE5, 0x00, 0x69, 0xEC};
 
 void setup()
@@ -69,12 +68,12 @@ void loop()
 void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
 {
   //debug
-  Serial.print("frame ");
- 
-  Serial.print(universe);
-  Serial.print("\t");
-  Serial.println(length);
-
+  //Serial.print("frame ");
+  //Serial.print(universe);
+  //Serial.print("\t");
+  //Serial.println(length);
+  //Serial.print(universe);
+  
   sendFrame = 1;
   // Store which universe has got in
   if (universe < maxUniverses)
@@ -84,7 +83,6 @@ void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* d
   {
     if (universesReceived[i] == 0)
     {
-      //Serial.println("Broke");
       sendFrame = 0;
       break;
     }
@@ -102,14 +100,11 @@ void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* d
   for (int i = 0; i < ledsPerStrip * numStrips; i++)
   {
     leds.setPixel(i, channelBuffer[(i) * 3], channelBuffer[(i * 3) + 1], channelBuffer[(i * 3) + 2]);
-    //Serial.println(channelBuffer[(i) * 3]);
-
   }      
   
   if (sendFrame)
   {
     leds.show();
-    // Reset universeReceived to 0
     memset(universesReceived, 0, maxUniverses);
   }
 }
